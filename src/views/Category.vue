@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import Aside from '../components/admin/Aside.vue'
+import Header from '../components/admin/Header.vue'
 export default {
     name: 'Category',
     components: { Aside, Header },

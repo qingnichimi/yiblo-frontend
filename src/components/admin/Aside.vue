@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-menu class="el-menu-vertical-demo">
+        <el-menu class="el-menu-vertical-demo" style="min-height: calc(100vh - 60px)">
             <el-submenu index="1" @open="handleOpen" @close="handleClose">
                 <template slot="title">
                     <i class="el-icon-menu"></i>

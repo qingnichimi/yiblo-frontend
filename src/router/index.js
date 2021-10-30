@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '@/views/Login'
-import Home from '@/views/Home'
+import AdminHome from '@/views/AdminHome'
 import ArticleList from '@/views/ArticleList'
 import PostArticle from '@/views/PostArticle'
+import Home from '@/views/Home'
 Vue.use(VueRouter)
 
 const routes = [
@@ -13,9 +14,9 @@ const routes = [
     component: Login
   },
   {
-      path: '/home',
-      name: 'Home',
-      component: Home
+      path: '/admin/home',
+      name: 'AdminHome',
+      component: AdminHome
   },
   {
       path: '/admin/articleList',
@@ -26,6 +27,11 @@ const routes = [
     path: '/admin/postArticle',
     name: 'PostArticle',
     component: PostArticle
+  },
+  {
+      path: '/home',
+      name: 'Home',
+      component: Home
   }
 ]
 
