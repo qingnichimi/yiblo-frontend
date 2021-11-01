@@ -2,13 +2,13 @@
   <el-form ref="loginForm" :model="loginForm" :rules="rules" class="loginContainer" :loading="loading">
       <h3 class="loginTitle">登录</h3>
       <el-form-item prop="username">
-          <el-input type="text" :model="loginForm.username" placeholder="请输入用户名"></el-input>
+          <el-input type="text" v-model="loginForm.username" placeholder="请输入用户名" @input="onInput()"></el-input>
       </el-form-item>
       <el-form-item prop="password">
-          <el-input type="password" :model="loginForm.password" placeholder="请输入密码"></el-input>
+          <el-input type="password" v-model="loginForm.password" placeholder="请输入密码" @input="onInput()"></el-input>
       </el-form-item>
       <el-form-item prop="code">
-          <el-input type="text" :model="loginForm.code" placeholder="请输入验证码" style="width: 200px"></el-input>
+          <el-input type="text" v-model="loginForm.code" placeholder="请输入验证码" style="width: 200px" @input="onInput()"></el-input>
           <img :src="vcUrl" @click="updateVerifyCode">
       </el-form-item>
       <el-form-item >
@@ -42,6 +42,9 @@ export default {
         }
     },
     methods: {
+        onInput: function () {
+            this.$forceUpdate()
+        },
         updateVerifyCode: function () {
             // 请求地址
         },
@@ -54,6 +57,7 @@ export default {
             }).then(resp => {
                 this.loading = false
                 if (resp.data.code === 200) {
+                    localStorage.setItem('token', resp.data.data.token)
                     this.$router.replace('/home')
                 } else {
                     alert(resp.data.message)

@@ -5,13 +5,15 @@ import AdminHome from '@/views/AdminHome'
 import ArticleList from '@/views/ArticleList'
 import PostArticle from '@/views/PostArticle'
 import Home from '@/views/Home'
+import Archive from '@/views/Archive'
+import ArticleDetail from '@/views/ArticleDetail'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Login',
-    component: Login
+    name: 'Home',
+    component: Home
   },
   {
       path: '/admin/home',
@@ -32,7 +34,22 @@ const routes = [
       path: '/home',
       name: 'Home',
       component: Home
-  }
+  },
+  {
+      path: '/admin',
+      name: 'Login',
+      component: Login
+  },
+  {
+    path: '/archive',
+    name: 'Archive',
+    component: Archive
+   },
+   {
+    path: '/articleDetail',
+    name: 'ArticleDetail',
+    component: ArticleDetail
+   }
 ]
 
 const router = new VueRouter({
