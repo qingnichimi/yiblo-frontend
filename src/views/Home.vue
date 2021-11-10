@@ -5,15 +5,18 @@
             <Information></Information>
             <el-col :span="12">
                 <div class="articleBox" v-for="article in articles" :key="article.id" :loading="loading">
-                    <el-card style="width:100%" >
+                    <el-card style="width:100%;border-radius:18px;" >
                         <div slot="header" class="clearfix">
-                            <span>{{ article.title }}</span>
-                            <span>{{ article.catename }}</span>
-                            <!-- <span>{{ article.tags }}</span> -->
+                            <div>
+                                <el-link @click="itemClick(article.id)" :underline="false"><h1>{{ article.title }}</h1></el-link>
+                            </div>
+                            <div>
+                                <el-link icon="el-icon-date" class="link-item" :underline="false"><span>{{ article.publish_time  | formatDate}}</span></el-link><el-link icon="el-icon-menu" class="link-item" :underline="false"><span>{{ article.catename }}</span></el-link><el-link icon="el-icon-collection-tag" class="link-item" :underline="false"><span>标签</span></el-link>
+                            </div>
                         </div>
-                        <div class="text item">
+                        <div>
                             <p>{{ article.summary }}</p>
-                            <el-button>查看更多</el-button>
+                            <el-button @click="itemClick(article.id)">查看更多</el-button>
                         </div>
                     </el-card>
                 </div>
@@ -23,7 +26,7 @@
                     layout="prev, pager, next"
                     :total="total"
                     @current-change="currentChange"
-                    style="margin-left: 350px;">
+                    style="margin-left: 35%;">
                 </el-pagination>
             </el-col>
             <RightSide></RightSide>
@@ -32,7 +35,7 @@
 </template>
 
 <script>
-import { postRequest } from '../utils/api'
+import { postRequest, getRequest } from '../utils/api'
 import Header from '../components/Header.vue'
 import Information from '../components/Information.vue'
 import RightSide from '../components/RightSide.vue'
@@ -45,7 +48,8 @@ export default {
             pageSize: 10,
             articles: [],
             currentPage: 1,
-            loading: false
+            loading: false,
+            categories: []
         }
     },
     mounted: function () {
@@ -69,6 +73,17 @@ export default {
                 }
             })
             this.loading = false
+        },
+        itemClick: function (aid) {
+            this.$router.push({ path: '/articleDetail', query: { aid: aid } })
+        },
+        getCategories: function () {
+            getRequest('/category/all').then(resp => {
+                if (resp.data.code === 200) {
+                    this.categories = resp.data.data
+                    console.log(resp.data.data)
+                }
+            })
         }
     }
 }
@@ -80,5 +95,8 @@ export default {
     }
     .articleBox {
         margin-bottom: 20px;
+    }
+    .link-item {
+        margin-left: 10px;
     }
 </style>

@@ -4,10 +4,14 @@
       <el-row :gutter="24">
           <Information></Information>
           <el-col :span="12">
-              <el-card>
+              <el-card style="border-radius:18px">
                   <div slot="header">
-                      <h2>{{ article.title }}</h2>
-                      <span>{{ article.publish_time }}</span>|<span>{{ article.catename }}</span>|<span>标签</span>
+                      <div>
+                                <el-link :underline="false"><h1>{{ article.title }}</h1></el-link>
+                            </div>
+                            <div>
+                                <el-link icon="el-icon-date" class="link-item" :underline="false"><span>{{ article.publish_time }}</span></el-link><el-link icon="el-icon-menu" class="link-item" :underline="false"><span>{{ article.catename }}</span></el-link><el-link icon="el-icon-collection-tag" class="link-item" :underline="false"><span>标签</span></el-link>
+                            </div>
                   </div>
                   <div style="text-align:left">
                       {{ article.htmlContent }}
@@ -41,7 +45,8 @@ export default {
         }
     },
     mounted: function () {
-        this.loadArticleDetail(1)
+        var aid = this.$route.query.aid
+        this.loadArticleDetail(aid)
     },
     methods: {
         loadArticleDetail: function (aid) {
@@ -63,5 +68,7 @@ export default {
 </script>
 
 <style>
-
+    .link-item {
+        margin-left: 10px;
+    }
 </style>

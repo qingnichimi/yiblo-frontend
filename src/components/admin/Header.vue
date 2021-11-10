@@ -3,7 +3,7 @@
       <el-menu mode="horizontal">
           <el-row>
               <el-col span="4">
-                  <img src="../../assets/logo.png" style="height:50px">
+                  <img src="../../assets/logo.png" style="height:35px">
               </el-col>
               <el-col span="2" push="18">
                   <el-dropdown >

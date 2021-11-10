@@ -28,8 +28,8 @@ export default {
         return {
             vcUrl: '',
             loginForm: {
-                username: 'tws',
-                password: 'tws',
+                username: '',
+                password: '',
                 code: ''
             },
             checked: true,
@@ -56,9 +56,11 @@ export default {
                 password: this.loginForm.password
             }).then(resp => {
                 this.loading = false
-                if (resp.data.code === 200) {
-                    localStorage.setItem('token', resp.data.data.token)
-                    this.$router.replace('/home')
+                if (resp) {
+                    console.log(resp)
+                    localStorage.setItem('token', resp.data.data.tokenHead + resp.data.data.token)
+                    console.log(resp.data.data.tokenHead + resp.data.data.token)
+                    this.$router.replace('/admin/home')
                 } else {
                     alert(resp.data.message)
                 }

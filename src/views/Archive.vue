@@ -4,11 +4,13 @@
       <el-row :gutter="24">
           <Information></Information>
           <el-col :span="12">
-              <el-timeline v-for="archive in archiveList" :key="archive.id">
-                  <el-timeline-item :timestamp="archive.publish_time" placement="top" >
-                      <el-card style="height:100px">
-                              <h2 style="height:20px">{{ archive.title }}</h2>
-                          <span>{{ archive.publish_time }}</span>|<span>{{ archive.catename }}</span>|<span>标签</span>
+              <el-timeline>
+                  <el-timeline-item :timestamp="archive.publish_time | formatDateTime" placement="top" v-for="archive in archiveList" :key="archive.id">
+                      <el-card style="height:130px;border-radius:18px">
+                          <div>
+                              <el-link @click="itemClick(archive.id)" :underline="false"><h2>{{ archive.title }}</h2></el-link>
+                          </div>
+                          <el-link icon="el-icon-menu" class="link-item" :underline="false"><span>{{ archive.catename }}</span></el-link><el-link icon="el-icon-collection-tag" class="link-item" :underline="false"><span>标签</span></el-link>
                       </el-card>
                   </el-timeline-item>
               </el-timeline>
@@ -61,6 +63,9 @@ export default {
         currentChange: function (pageNum) {
             this.pageNum = pageNum
             this.loadArchive(pageNum, this.pageSize)
+        },
+        itemClick: function (aid) {
+            this.$router.push({ path: '/articleDetail', query: { aid: aid } })
         }
     }
 }

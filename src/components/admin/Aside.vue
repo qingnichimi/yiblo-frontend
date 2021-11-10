@@ -7,26 +7,22 @@
                     <span slot="title">博客管理</span>
                 </template>
                 <el-menu-item index="1-1">
-                    博客列表
+                    <el-link :underline="false" href="/admin/articleList" >博客列表</el-link>
                 </el-menu-item>
                 <el-menu-item index="1-2">
-                    写博客
+                    <el-link :underline="false" href="/admin/postArticle" >写博客</el-link>
                 </el-menu-item>
                 <el-menu-item index="1-3">
-                    草稿箱
+                    <el-link :underline="false" href="" >草稿箱</el-link>
                 </el-menu-item>
             </el-submenu>
             <el-menu-item>
                 <i class="el-icon-menu"></i>
-                <span slot="title" index="2">分类管理</span>
+                <span slot="title" index="2"><el-link :underline="false" href="/admin/categoryList" >分类管理</el-link></span>
             </el-menu-item>
             <el-menu-item>
                 <i class="el-icon-menu"></i>
                 <span slot="title" index="3">标签管理</span>
-            </el-menu-item>
-            <el-menu-item>
-                <i class="el-icon-menu"></i>
-                <span slot="title" index="4"></span>
             </el-menu-item>
         </el-menu>
     </div>
