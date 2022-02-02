@@ -1,36 +1,41 @@
 <template>
     <div>
         <Header></Header>
-        <el-row :gutter="24">
-            <Information></Information>
-            <el-col :span="12">
-                <div class="articleBox" v-for="article in articles" :key="article.id" :loading="loading">
-                    <el-card style="width:100%;border-radius:18px;" >
-                        <div slot="header" class="clearfix">
-                            <div>
-                                <el-link @click="itemClick(article.id)" :underline="false"><h1>{{ article.title }}</h1></el-link>
+        <el-row :gutter="24" >
+            <div :style="{minHeight:minHeight+ 'px'}">
+                <Information></Information>
+                <el-col :span="12">
+                    <div class="articleBox" v-for="article in articles" :key="article.id" :loading="loading">
+                        <el-card style="width:100%;border-radius:18px;" >
+                            <div slot="header" class="clearfix">
+                                <div>
+                                    <el-link @click="itemClick(article.id)" :underline="false"><h1>{{ article.title }}</h1></el-link>
+                                </div>
+                                <div>
+                                    <el-link icon="el-icon-date" class="link-item" :underline="false"><span>{{ article.publish_time  | formatDate}}</span></el-link><el-link icon="el-icon-menu" class="link-item" :underline="false"><span>{{ article.catename }}</span></el-link><el-link icon="el-icon-collection-tag" class="link-item" :underline="false"><span>标签</span></el-link>
+                                </div>
                             </div>
                             <div>
-                                <el-link icon="el-icon-date" class="link-item" :underline="false"><span>{{ article.publish_time  | formatDate}}</span></el-link><el-link icon="el-icon-menu" class="link-item" :underline="false"><span>{{ article.catename }}</span></el-link><el-link icon="el-icon-collection-tag" class="link-item" :underline="false"><span>标签</span></el-link>
+                                <p>{{ article.summary }}</p>
+                                <el-button @click="itemClick(article.id)">查看更多</el-button>
                             </div>
-                        </div>
-                        <div>
-                            <p>{{ article.summary }}</p>
-                            <el-button @click="itemClick(article.id)">查看更多</el-button>
-                        </div>
-                    </el-card>
-                </div>
-                <el-pagination
-                    background
-                    :page-size="pageSize"
-                    layout="prev, pager, next"
-                    :total="total"
-                    @current-change="currentChange"
-                    style="margin-left: 35%;">
-                </el-pagination>
-            </el-col>
-            <RightSide></RightSide>
+                        </el-card>
+                    </div>
+                    <el-pagination
+                        background
+                        :page-size="pageSize"
+                        layout="prev, pager, next"
+                        :total="total"
+                        @current-change="currentChange"
+                        style="margin-left: 35%;">
+                    </el-pagination>
+                </el-col>
+                <RightSide></RightSide>
+            </div>
         </el-row>
+        <div >
+            <Footer></Footer>
+        </div>
     </div>
 </template>
 
@@ -39,9 +44,10 @@ import { postRequest, getRequest } from '../utils/api'
 import Header from '../components/Header.vue'
 import Information from '../components/Information.vue'
 import RightSide from '../components/RightSide.vue'
+import Footer from '../components/Footer.vue'
 export default {
     name: 'Home',
-    components: { Header, Information, RightSide },
+    components: { Header, Information, RightSide, Footer },
     data () {
         return {
             total: -1,
@@ -49,11 +55,17 @@ export default {
             articles: [],
             currentPage: 1,
             loading: false,
-            categories: []
+            categories: [],
+            minHeight: 0
         }
     },
     mounted: function () {
         this.loadArticles(this.currentPage, this.pageSize)
+        this.minHeight = document.documentElement.clientHeight - 190
+        var that = this
+        window.onresize = function () {
+            that.minHeight = document.documentElement.clientHeight - 190
+        }
     },
     methods: {
         currentChange: function (currentPage) {

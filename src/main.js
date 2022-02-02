@@ -15,8 +15,8 @@ Vue.filter('formatDateTime', formatDateTime)
 axios.interceptors.request.use(config => {
     if (config.push === '/admin/home') {
     } else {
-        if (localStorage.getItem('token')) {
-            config.headers.Authorization = localStorage.getItem('token')
+        if (sessionStorage.getItem('token')) {
+            config.headers.Authorization = sessionStorage.getItem('token')
         }
     }
     return config
@@ -26,10 +26,10 @@ error => {
 })
 axios.interceptors.response.use(response => {
     if (response.data.code === 401) {
-        localStorage.removeItem('token')
+        sessionStorage.removeItem('token')
         router.push({ name: 'Login' })
     } else if (response.data.data.token) {
-        localStorage.setItem('token', response.data.data.tokenHead + response.data.data.token)
+        sessionStorage.setItem('token', response.data.data.tokenHead + response.data.data.token)
     }
     return response
 },

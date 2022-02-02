@@ -10,6 +10,7 @@
       <el-form-item prop="code">
           <el-input type="text" v-model="loginForm.code" placeholder="请输入验证码" style="width: 200px" @input="onInput()"></el-input>
           <img :src="vcUrl" @click="updateVerifyCode">
+          <el-input type="hidden" v-model="loginForm.uuid" style="width: 100px" ></el-input>
       </el-form-item>
       <el-form-item >
           <el-checkbox :checked="checked" class="loginRemember">记住我</el-checkbox>
@@ -21,7 +22,7 @@
 </template>
 
 <script>
-import { postRequest } from '../utils/api'
+import { postRequest, getRequest } from '../utils/api'
 export default {
     name: 'Login',
     data () {
@@ -30,7 +31,8 @@ export default {
             loginForm: {
                 username: '',
                 password: '',
-                code: ''
+                code: '',
+                uuid: ''
             },
             checked: true,
             loading: false,
@@ -41,19 +43,33 @@ export default {
             }
         }
     },
+    created: function () {
+        this.getCode()
+    },
     methods: {
         onInput: function () {
             this.$forceUpdate()
         },
         updateVerifyCode: function () {
-            // 请求地址
+            this.getCode()
+        },
+        getCode: function () {
+            getRequest('/getCode').then(resp => {
+                if (resp.data.code === 200) {
+                    console.log(resp.data)
+                    this.vcUrl = resp.data.data.image
+                    this.loginForm.uuid = resp.data.data.uuid
+                }
+            })
         },
         submitLogin: function () {
             // 请求方法
             this.loading = true
             postRequest('/doLogin', {
                 username: this.loginForm.username,
-                password: this.loginForm.password
+                password: this.loginForm.password,
+                uuid: this.loginForm.uuid,
+                code: this.loginForm.code
             }).then(resp => {
                 this.loading = false
                 if (resp) {

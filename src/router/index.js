@@ -77,7 +77,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     // {to and from are Route Object,next() must be called to resolve the hook}
     if (to.matched.some(res => res.meta.requireAuth)) {
-        if (localStorage.getItem('token')) {
+        if (sessionStorage.getItem('token')) {
             next()
         } else {
             next({

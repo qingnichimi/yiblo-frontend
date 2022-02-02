@@ -13,8 +13,7 @@
                                 <el-link icon="el-icon-date" class="link-item" :underline="false"><span>{{ article.publish_time }}</span></el-link><el-link icon="el-icon-menu" class="link-item" :underline="false"><span>{{ article.catename }}</span></el-link><el-link icon="el-icon-collection-tag" class="link-item" :underline="false"><span>标签</span></el-link>
                             </div>
                   </div>
-                  <div style="text-align:left">
-                      {{ article.htmlContent }}
+                  <div v-html="article.htmlContent" >
                   </div>
               </el-card>
           </el-col>
@@ -59,7 +58,6 @@ export default {
                     this.article.publish_time = resp.data.data.publish_time
                     this.article.mdContent = resp.data.data.mdContent
                     this.article.summary = resp.data.data.summary
-                    console.log(resp.data.data.title)
                 }
             })
         }
